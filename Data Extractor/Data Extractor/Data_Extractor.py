@@ -15,7 +15,7 @@ call = call_option.calls[['strike','lastPrice']]
 with open('data_inputs.csv', 'w', newline='') as f:
       writer = csv.writer(f)
       writer.writerow(['ticker', 'spot', 'volatility', 'rate', 'expiry'])
-      writer.writerow([stock, spot, returns, risk_rate, exp])
+      writer.writerow([stock, spot, volatility, risk_rate, exp])
 
 call.to_csv('call_info.csv', index=False)
 
