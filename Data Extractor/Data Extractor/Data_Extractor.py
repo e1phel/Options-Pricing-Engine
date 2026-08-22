@@ -12,12 +12,12 @@ exp = stock.options[0]
 call_option = stock.option_chain(exp)
 call = call_option.calls[['strike','lastPrice']]
  
-with open('market_inputs.csv', 'w', newline='') as f:
+with open('data_inputs.csv', 'w', newline='') as f:
       writer = csv.writer(f)
       writer.writerow(['ticker', 'spot', 'volatility', 'rate', 'expiry'])
       writer.writerow([stock, spot, returns, risk_rate, exp])
 
-call.to_csv('option_chain.csv', index=False)
+call.to_csv('call_info.csv', index=False)
 
 print(f"Ticker :{stock}")
 print(f"Spot :{spot}")
