@@ -3,6 +3,7 @@
 #include<fstream>
 #include<string>
 #include<vector>
+#include<sstream>
 
 using namespace std;
 
@@ -13,34 +14,48 @@ protected:
 	const double euler = 2.718;
 	int loc = 0;
 	string line, stock, temp,exp;
-public:
+	ifstream data, options;
 	vector<vector<string>>inputs;
-	void read_data()
+	vector<vector<string>>call;
+public:
+	data_read():
+		 data{ "C:\\Users\\pc\\Documents\\GitHub\\Options-Pricing-Engine\\Data Extractor\\Data Extractor\\data_inputs.csv" },
+		options{ "C:\\Users\\pc\\Documents\\GitHub\\Options-Pricing-Engine\\Data Extractor\\Data Extractor\\call_info.csv" }
 	{
-	ifstream data{ "C:\\Users\\pc\\Documents\\GitHub\\Options-Pricing-Engine\\Data Extractor\\Data Extractor\\data_inputs.csv" };
-	ifstream options{ "C:\\Users\\pc\\Documents\\GitHub\\Options-Pricing-Engine\\Data Extractor\\Data Extractor\\call_info.csv" };
-	getline(data, line);
-	getline(data, line);
-	loc = line.find(",");
-	stock = line.substr(0,loc);
-	cout << stock << endl;
-	temp = line.substr(loc+1, line.length());
-	loc = temp.find(",");
-	spot = stod(temp.substr(0, loc));
-	cout << spot<<endl;
-	temp = temp.substr(loc + 1, temp.length());
-	loc = temp.find(",");
-	vol = stod(temp.substr(0, loc));
-	cout << vol << endl;
-	temp = temp.substr(loc + 1, temp.length());
-	loc = temp.find(",");
-	risk = stod(temp.substr(0, loc));
-	cout << risk<<endl;
-	temp = temp.substr(loc + 1, temp.length());
-	loc = temp.find(",");
-	exp = temp.substr(0, loc);
-	cout << exp << endl;
+	}
+	void read_spot_data()
+	{
+	while (getline(data, line))
+	{
+		vector<string>rows;
+		stringstream ss(line);
+		string word;
+		while (getline(ss,word, ','))
+		{
+			rows.push_back(word);
+		}
+		inputs.push_back(rows);
+	}
+	//stock settings
+
+
     }
+	void read_strike_data()
+	{
+		while (getline(options, line))
+		{
+			vector<string>rows;
+			stringstream ss(line);
+			string word;
+			while (getline(ss, word, ','))
+			{
+				rows.push_back(word);
+			}
+			call.push_back(rows);
+		}
+		
+	}
+	
 };
 class call:public data_read
 {
@@ -50,6 +65,7 @@ protected:
 int main()
 {
 	data_read d;
-	d.read_data();
+	d.read_spot_data();
+	d.read_strike_data();
 }
 
