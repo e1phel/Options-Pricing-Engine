@@ -12,11 +12,11 @@ class data_read
 protected:
 	double spot, strike, vol,risk,deflt;
 	const double euler = 2.718;
-	int loc = 0;
 	string line, stock, temp,exp;
 	ifstream data, options;
 	vector<vector<string>>inputs;
 	vector<vector<string>>call;
+	bool run = false;
 public:
 	data_read():
 		 data{ "C:\\Users\\pc\\Documents\\GitHub\\Options-Pricing-Engine\\Data Extractor\\Data Extractor\\data_inputs.csv" },
@@ -37,11 +37,20 @@ public:
 		inputs.push_back(rows);
 	}
 	//stock settings
-
-
+	int loc=0,loc1 = 0;
+	loc=inputs[1][0].find("<");
+	loc1 = inputs[1][0].find(">");
+	stock = inputs[1][0].substr(loc+1, loc1-1);
+	cout << stock;
+	///////
+	spot = stod(inputs[1][1]);
+	vol = stod(inputs[1][2]);
+	risk = stod(inputs[1][3]);
+	exp = inputs[1][4];
     }
 	void read_strike_data()
 	{
+		int x=1;
 		while (getline(options, line))
 		{
 			vector<string>rows;
@@ -53,7 +62,14 @@ public:
 			}
 			call.push_back(rows);
 		}
-		
+		strike = stod(call[x][0]);
+		deflt = stod(call[x][1]);
+		if (run == true)
+		{
+			x++;
+			strike = stod(call[x][0]);
+			deflt = stod(call[x][1]);
+		}
 	}
 	
 };
