@@ -77,6 +77,16 @@ class call:public data_read
 {
 protected:
 	double d1, d2, num, denm,d1b,d1a;
+public:
+	void generate_call()
+	{
+		d1b = log(spot / strike);
+		d1a = (risk + (pow(vol, 2) / 2)) * time;
+		denm = vol * sqrt(time);
+		d1 = num / denm;
+		d2 = d1 - denm;
+		return (spot * norm(d1)) - (strike * exp(-(risk * time)) * norm(d2));
+	}
 };
 int main()
 {
