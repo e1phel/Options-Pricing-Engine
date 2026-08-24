@@ -11,9 +11,9 @@ class data_read
 {
 protected:
 	double spot, strike, vol,risk, expire,deflt;
-	int x = 1;
+	int x = 20;
 	const double euler = 2.718;
-	string line, stock, temp;
+	string line, stock, temp,expdate;
 	ifstream data, options;
 	vector<vector<string>>inputs;
 	vector<vector<string>>call;
@@ -36,16 +36,12 @@ public:
 		}
 		inputs.push_back(rows);
 	}
-	//stock settings
-	int loc=0,loc1 = 0;
-	loc=inputs[1][0].find("<");
-	loc1 = inputs[1][0].find(">");
-	stock = inputs[1][0].substr(loc+1, loc1-1);
-	///////
+	stock = inputs[1][0];
 	spot = stod(inputs[1][1]);
 	vol = stod(inputs[1][2]);
 	risk = stod(inputs[1][3]);
 	expire = stod(inputs[1][4]);
+	expdate = inputs[1][5];
     }
 	void read_strike_data(bool run)
 	{
@@ -72,6 +68,7 @@ public:
 	double get_exp() { return expire; }
 	double get_strike() { return strike; }
 	double get_market() { return deflt; }
+	string get_date() { return expdate; }
 	
 	
 };
@@ -85,14 +82,15 @@ public:
 	}
 	double generate_call()
 	{
-		d1b = log(spot / strike);
+		d1b = log(spot / get_strike());
 		d1a = (risk + (pow(vol, 2) / 2)) * expire;
 		num = d1b + d1a;
 		denm = vol * sqrt(expire);
 		d1 = num / denm;
 		d2 = d1 - denm;
-		return (spot * norm(d1)) - (strike * exp(-risk * expire) * norm(d2));;
+		return (spot * norm(d1)) - (get_strike() * exp(-risk * expire) * norm(d2));;
 	}
+	double get_delta() { return norm(d1); }
 };
 int main()
 {
@@ -108,12 +106,12 @@ int main()
 	cout << "========== Pricing Engine ==========" << endl;
 	cout << "Ticker : " << c.get_stock()<<endl;
 	cout << "Spot Price : $" << c.get_spot()<<endl;
-	cout << "Volatality : " << c.get_vol()<<"%"<<endl;
-	cout << "Risk-Free Rate : " << c.get_risk()<<"%"<<endl;
-	cout << "Expiry : " << c.get_exp()<<" Years"<<endl;
+	cout << "Volatality : " << c.get_vol()*100<<"%"<<endl;
+	cout << "Risk-Free Rate : " << c.get_risk()*100<<"%"<<endl;
+	cout << "Expiry : " <<c.get_date()<<" (" << c.get_exp()<<" Years" << " )" << endl;
 	cout << "===================================="<<endl;
 	cout << endl;
-	cout << left << setw(10) << "Strike" << "| "<< setw(14) << "Theoretical" << "| "<< setw(12) << "Market" << "| "<< setw(12) << "Diff" << endl;
+	cout << left << setw(10) << "Strike" << "| "<< setw(14) << "Theoretical" << "| "<< setw(12) << "Market" << "| "<< setw(12) << "Diff" << "| " << setw(12) <<"Delta"<< endl;
 	cout << string(60, '-') << endl; 
 	for (int i = 0; i < cont; i++)
 	{
@@ -121,7 +119,7 @@ int main()
 		double call_price = c.generate_call();
 		diff = abs(call_price - c.get_market());
 		cout << left << setw(10) << c.get_strike() << "| "<< setw(14) << call_price << "| "<< setw(12) << c.get_market() << "| "<< setw(12)
-			 << diff << endl;
+			 << diff << "| " << setw(12)<< c.get_delta()<< endl;
 		cundiff += diff;
 		run = true;
 	}
