@@ -6,6 +6,20 @@ An object-oriented C++ pricing engine that implements the Black-Scholes model, p
 
 Given real market inputs — current stock price, historical volatility, risk-free rate, and time to expiry — this program computes the theoretical "fair value" of a call option using the Black-Scholes formula, then checks that against the option's actual last-traded market price. It also computes Delta, the option's sensitivity to the underlying stock price.
 
+The ticker is configurable — swapping the stock symbol in the data-fetching script lets you pull data and run this same engine for a different company. Note that the strike range selected out of the option chain is currently tuned around NVDA's price level, so results are cleanest for similarly priced, liquid stocks without further adjustment.
+
+### Tickers
+
+| Ticker | Company |
+|---|---|
+| NVDA | Nvidia |
+| AAPL | Apple |
+| MSFT | Microsoft |
+| GOOGL | Alphabet (Google) |
+| AMZN | Amazon |
+| TSLA | Tesla |
+| META | Meta |
+
 ## Concepts demonstrated
 
 - **Object-Oriented Design**: encapsulation of market data, inheritance between the data-loading and pricing classes, and a clean separation between data loading and pricing logic
