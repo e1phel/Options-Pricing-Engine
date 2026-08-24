@@ -50,3 +50,7 @@ The output table shows, for each strike: the theoretical price, the real market 
 2. Uses historical volatility rather than market-implied volatility, which contributes to the systematic pricing gap observed above
 3. Assumes no dividends and European-style exercise (no early exercise)
 4. Risk-free rate is a fixed approximation based on current short-term Treasury yields, not matched precisely to the option's exact expiry
+
+### How to Run
+1. First Run the Python script to pull data.
+2. Run the C++ Script to Calculate Data.
