@@ -6,7 +6,7 @@ An object-oriented C++ pricing engine that implements the Black-Scholes model, p
 
 Given real market inputs — current stock price, historical volatility, risk-free rate, and time to expiry — this program computes the theoretical "fair value" of a call option using the Black-Scholes formula, then checks that against the option's actual last-traded market price. It also computes Delta, the option's sensitivity to the underlying stock price.
 
-The ticker is configurable — swapping the stock symbol in the data-fetching script lets you pull data and run this same engine for a different company. Note that the strike range selected out of the option chain is currently tuned around NVDA's price level, so results are cleanest for similarly priced, liquid stocks without further adjustment.
+The ticker is configurable — swapping the stock symbol in the data-fetching script lets you pull data and run this same engine for a different company. Note that the strike range selected out of the option chain is currently tuned around NVDA's price level, so results are cleanest for similarly priced, liquid stocks without further adjustment.It is Recommended  to Change the "X" variable in C++ for Other Stocks also if you want results for the entire list then change the "Cont" Variable.
 
 ### Tickers
 
@@ -36,6 +36,8 @@ The pricing engine reads both files, builds a pricing object per strike, and run
 The output table shows, for each strike: the theoretical price, the real market price, the difference between them, and Delta.
 
 ## Sample Output
+
+<img width="1328" height="896" alt="Nvidia Call Options" src="https://github.com/user-attachments/assets/d5b71f1f-6bc9-4497-8471-45933d86d0a8" />
 
 <img width="727" height="390" alt="image" src="https://github.com/user-attachments/assets/c6e33fde-608e-47ac-b21e-192eba839239" />
 
